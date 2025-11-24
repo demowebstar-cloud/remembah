@@ -1,2 +1,695 @@
 # remembah
 demowebstar
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remembah Reza - My Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #1a1a1a;
+            --accent-color: #f5f5f5;
+            --text-color: #333;
+            --light-text: #fff;
+        }
+        
+        body {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(26, 26, 26, 0.95);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links i {
+            margin-right: 8px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://z-cdn-media.chatglm.cn/files/0c745cda-b8df-4ba0-976e-adab9a42fabc_540503135_1476552193488627_4229933046571437956_n.jpg?auth_key=1863983059-b29fa5f979e64f2c9952257d8dc5aaf9-0-88327fb4f605b0041605639d517efd23') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light-text);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.2s;
+            animation-fill-mode: both;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s;
+            animation-fill-mode: both;
+        }
+        
+        .btn:hover {
+            background-color: #d81b60;
+            transform: translateY(-3px);
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            padding: 50px 0;
+            background-color: #fff;
+            text-align: center;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            background-color: var(--accent-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 30px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            padding: 100px 0;
+            background-color: var(--accent-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 300px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 20px;
+            color: var(--light-text);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Modal for Lightbox */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow: auto;
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 900px;
+            margin-top: 50px;
+        }
+        
+        .modal-image {
+            width: 100%;
+            border-radius: 5px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: var(--light-text);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+        
+        .modal-caption {
+            text-align: center;
+            color: var(--light-text);
+            margin-top: 15px;
+        }
+        
+        /* Load More Button */
+        .load-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        /* Profile Section */
+        .profile {
+            padding: 100px 0;
+            background-color: #fff;
+        }
+        
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 30px;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .profile-info p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .profile-bio {
+            margin-bottom: 40px;
+            color: #555;
+        }
+        
+        .profile-details {
+            background-color: var(--accent-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .profile-item i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            width: 30px;
+        }
+        
+        .profile-item a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .profile-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .profile-container {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">Remembah Reza</a>
+            <ul class="nav-links">
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#gallery"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="#profile"><i class="fas fa-user"></i> Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Remembah Reza Gallery</h1>
+            <p>Visual Journey Through Music & Art</p>
+            <a href="#gallery" class="btn">Explore My Gallery</a>
+        </div>
+    </section>
+    
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <h2>Filter My Gallery</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="outdoor">Outdoor</button>
+                <button class="filter-btn" data-filter="group">Group Photos</button>
+                <button class="filter-btn" data-filter="solo">Solo</button>
+                <button class="filter-btn" data-filter="performance">Performance</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">My Gallery</h2>
+            <div class="gallery-grid">
+                <!-- Image 1: Man in white T-shirt -->
+                <div class="gallery-item" data-category="solo outdoor">
+                    <img src="https://z-cdn-media.chatglm.cn/files/0c745cda-b8df-4ba0-976e-adab9a42fabc_540503135_1476552193488627_4229933046571437956_n.jpg?auth_key=1863983059-b29fa5f979e64f2c9952257d8dc5aaf9-0-88327fb4f605b0041605639d517efd23" alt="Man in white T-shirt">
+                    <div class="gallery-overlay">
+                        <h3>Outdoor Setting</h3>
+                        <p>Standing in a place with wooden structures and hut-like buildings</p>
+                    </div>
+                </div>
+                
+                <!-- Image 2: Three men in outdoor scene -->
+                <div class="gallery-item" data-category="group outdoor">
+                    <img src="https://z-cdn-media.chatglm.cn/files/32e12f65-acd4-4c16-9b6f-db4e4a233726_527791751_1453296315814215_7211296973133695539_n.jpg?auth_key=1863982413-69cc84e893bb4bdbbcb2ec660004c738-0-7c96fdace13b8c6b729844a0cd91adf2" alt="Three men outdoors">
+                    <div class="gallery-overlay">
+                        <h3>Group Portrait</h3>
+                        <p>Three men in distinctive outfits against a backdrop of buildings and blue sky</p>
+                    </div>
+                </div>
+                
+                <!-- Image 3: Three people with blue sky background -->
+                <div class="gallery-item" data-category="group outdoor">
+                    <img src="https://z-cdn-media.chatglm.cn/files/63aef392-126a-47ba-ba98-a118483ebc1b_526837069_1453296299147550_1248923425445829367_n.jpg?auth_key=1863982413-e65b64b910804ebebe762c318c1e0688-0-13d3b7f012a7d4de653b6b794cbf22bc" alt="Three people outdoors">
+                    <div class="gallery-overlay">
+                        <h3>Skyline View</h3>
+                        <p>Three people standing with blue sky, white clouds and green trees in the background</p>
+                    </div>
+                </div>
+                
+                <!-- Image 4: Three young people on street -->
+                <div class="gallery-item" data-category="group outdoor">
+                    <img src="https://z-cdn-media.chatglm.cn/files/f03f4d6b-3fcb-434c-a61d-c75a42159d4c_526628812_1453296272480886_241149006821671890_n.jpg?auth_key=1863982413-c39171e4541b439abeafe70f4a866b20-0-87a152d6847991888586aabb99d7f251" alt="Three young people on street">
+                    <div class="gallery-overlay">
+                        <h3>Street Scene</h3>
+                        <p>Three young people standing on an outdoor street with buildings and trees</p>
+                    </div>
+                </div>
+                
+                <!-- Image 5: Three people next to street -->
+                <div class="gallery-item" data-category="group outdoor">
+                    <img src="https://z-cdn-media.chatglm.cn/files/3bf27eef-05a8-4147-bc66-7035190dcb33_520237500_1453296255814221_3271839636658310171_n.jpg?auth_key=1863982413-9df9767b72484e42be16e497ffd70e0f-0-e617717286652224dedc90f55c04487f" alt="Three people next to street">
+                    <div class="gallery-overlay">
+                        <h3>Residential Area</h3>
+                        <p>Three people standing next to an outdoor street with houses, trees and fences</p>
+                    </div>
+                </div>
+
+                <!-- Image 6: Man in black vest -->
+                <div class="gallery-item" data-category="solo outdoor">
+                    <img src="https://z-cdn-media.chatglm.cn/files/6660d99c-ae86-494f-96f1-a6da84e65e22_503425041_1409805630163284_1819670978913486941_n.jpg?auth_key=1863983059-f1fac06bb1cd481fbb97d2532bbf67a3-0-1496550571599e04002496cb5dc3c912" alt="Man in black vest">
+                    <div class="gallery-overlay">
+                        <h3>Outdoor Portrait</h3>
+                        <p>Relaxed pose in an open outdoor area with fence, trees and buildings</p>
+                    </div>
+                </div>
+
+                <!-- Image 7: Man in front of red curtain -->
+                <div class="gallery-item" data-category="solo">
+                    <img src="https://z-cdn-media.chatglm.cn/files/26b53899-fba1-4216-8f20-d42e3f0a530e_495541399_1388382285638952_8787298347051897849_n.jpg?auth_key=1863983059-6bde017436964c5b88495adecd11d08d-0-bbe389c24aa6efb209d205599d80b093" alt="Man in front of red curtain">
+                    <div class="gallery-overlay">
+                        <h3>Studio Portrait</h3>
+                        <p>Posing in front of a red curtain with a colorful outfit</p>
+                    </div>
+                </div>
+
+                <!-- Image 8: Person playing guitar -->
+                <div class="gallery-item" data-category="solo outdoor performance">
+                    <img src="https://z-cdn-media.chatglm.cn/files/a1ddd922-7b29-4c9e-9d3c-83c7fea714a7_495021643_1385423222601525_6523863513721843627_n.jpg?auth_key=1863983059-bcf71b4e9b5f41108ca240aa1aa14626-0-4e6f5ff3f092daca91054115e3cd5f3e" alt="Person playing guitar">
+                    <div class="gallery-overlay">
+                        <h3>Guitar Performance</h3>
+                        <p>Playing guitar in an outdoor setting with a stone wall background</p>
+                    </div>
+                </div>
+
+                <!-- Image 9: New Image Added -->
+                <div class="gallery-item" data-category="solo">
+                    <img src="https://scontent-los2-1.xx.fbcdn.net/v/t39.30808-6/491920212_1379376959872818_4011789633932082324_n.jpg?stp=c0.18.576.576a_dst-jpg_s206x206_tt6&_nc_cat=105&ccb=1-7&_nc_sid=50ad20&_nc_ohc=5OgKuTYr47UQ7kNvwGdCLjt&_nc_oc=AdmkcpKMiJPVlf6xU34gI5BK1kyRS9CxpPAEcOeo0C0CfZcQnqUVLb6EYVcHE6MYGQU&_nc_zt=23&_nc_ht=scontent-los2-1.xx&_nc_gid=hCkxJmPQXLKIpIF-VWjxTQ&oh=00_AfgaH8NQEx2wO76lWgSScVGZI0QStgsw-uRUZPLQjCrsJw&oe=692A0587" alt="Personal Photo">
+                    <div class="gallery-overlay">
+                        <h3>Personal Portrait</h3>
+                        <p>A candid moment captured in time</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="load-more">
+                <button class="btn" id="loadMoreBtn">Load More Images</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Profile Section -->
+    <section id="profile" class="profile">
+        <div class="container">
+            <div class="profile-container">
+                <img src="https://z-cdn-media.chatglm.cn/files/16570b66-06fb-4b76-a5a2-d421e94e31f0_494955958_1384158442728003_6107449060442464068_n.jpg?auth_key=1863983059-5a7a122cd0024d70bde8a37db50ec3aa-0-87fe4cef1b8bdc9f4d894eca3e56a471" alt="Remembah Reza" class="profile-image">
+                
+                <div class="profile-info">
+                    <h2>Remembah Reza</h2>
+                    <p>Profile</p>
+                </div>
+                
+                <div class="profile-bio">
+                    <p>Welcome to my personal gallery. This collection represents a visual diary of my experiences, capturing moments of creativity, connection, and everyday life. Here you'll find a variety of scenes, from outdoor adventures with friends to solo portraits and musical performances. Each image holds a special memory, and I'm excited to share them with you.</p>
+                    <p>Take your time to browse through the collection and enjoy the stories they tell.</p>
+                </div>
+                
+                <div class="profile-details">
+                    <div class="profile-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:demowebstar@gmail.com">demowebstar@gmail.com</a>
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+2348142524523">+234.8142524523</a>
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Bama Road, Maiduguri, Borno State</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-spotify"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Remembah Reza Gallery. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Modal for Lightbox -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Gallery Filter
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Filter gallery items
+                const filterValue = button.getAttribute('data-filter');
+                
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category').includes(filterValue)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Lightbox functionality
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeModal = document.querySelector('.close-modal');
+        
+        galleryItems.forEach(item => {
+            const img = item.querySelector('img');
+            const overlay = item.querySelector('.gallery-overlay');
+            const title = overlay.querySelector('h3').textContent;
+            const description = overlay.querySelector('p').textContent;
+            
+            img.addEventListener('click', () => {
+                modal.style.display = 'block';
+                modalImage.src = img.src;
+                modalCaption.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Load More functionality
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        let itemsLoaded = 9; // Updated to reflect the new total
+        
+        loadMoreBtn.addEventListener('click', () => {
+            // In a real implementation, this would load more images from a database
+            // For demonstration, we'll just show an alert
+            alert('In a real implementation, this would load more gallery items from the server.');
+        });
+    </script>
+</body>
+</html>
